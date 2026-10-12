@@ -211,7 +211,7 @@ void keyChecker(){
       switch(keyClicked){
         case '1':
           tft.fillScreen(ST77XX_BLACK);
-          mode == "main_screen";
+          mode = "main_screen";
           //Stop buzzer
           break;
         case '2':
@@ -230,7 +230,7 @@ void keyChecker(){
     } else if(mode == "timer_screen"){
       switch(keyClicked){
         case '1':
-          mode == "main_screen";
+          mode = "main_screen";
           break;
         case '2':
           timerHour = (timerHour + 1) % 24;
@@ -461,6 +461,9 @@ void timerRun() {
       tft.setTextSize(2);
       tft.setTextColor(ST77XX_WHITE);
       tft.print("Timer done");
+      tone(BUZZER, 1000);
+      delay(500);
+      noTone(BUZZER); 
 
       timerStarted = false;
       timerEnded = true;
@@ -487,6 +490,7 @@ void setup() {
   
   Serial.begin(115200); // lets the board talk to your computer
 
+  pinMode(BUZZER, OUTPUT);
   // pinMode(TFT_BL, OUTPUT); // Set the backlight pin mode, or just wire it to 3.3V
   //digitalWrite(TFT_BL, LOW); // Turns the backlight ON, for some reason this screen is active Low, so setting it to LOW is really HIGH
 
@@ -538,7 +542,9 @@ void loop() {
     alarmScreen();
   }
   else if (mode == "alarm_ringing"){
-
+    tone(BUZZER, 1000);
+    delay(500);
+    noTone(BUZZER); 
   }
   else if(mode == "timer_screen"){
     timerScreen();
